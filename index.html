@@ -1,90 +1,225 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Phishing Awareness Lab — Local Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minstagram</title>
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;padding:24px;background:#eef2f7;color:#172033;
-       font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
-  .wrap{max-width:980px;margin:30px auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  .card{background:#fff;border:1px solid #dbe2ea;border-radius:18px;padding:26px;
-        box-shadow:0 10px 28px #1720330d}
-  .warning{grid-column:1/-1;background:#fff3cd;border:1px solid #f1d58a;color:#664d03;
-           padding:13px 16px;border-radius:12px;font-weight:750;text-align:center}
-  h1{font-size:25px;margin:0 0 6px} h2{font-size:20px;margin:0 0 12px}
-  p{color:#5c6879;margin:8px 0 18px}
-  label{display:block;font-weight:650;margin:15px 0 6px}
-  input{width:100%;padding:13px;border:1px solid #bfc9d6;border-radius:9px;font:inherit}
-  button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:9px;
-         background:#2457c5;color:white;font-weight:750;font-size:16px;cursor:pointer}
-  button:hover{background:#1948ad}
-  .output{min-height:150px;padding:14px;border-radius:10px;background:#f4f7fb;
-          border:1px solid #dce4ed;overflow-wrap:anywhere}
-  .line{margin:8px 0}.key{font-weight:750;color:#34445a}
-  .note{font-size:13px;margin-top:18px}
-  .empty{color:#788496}
-  @media(max-width:720px){.wrap{grid-template-columns:1fr}.warning{grid-column:auto}}
+  :root{
+    --bg: #ebebeb;
+    --card-bg: #ffffff;
+    --card-border: #dbdbdb;
+    --text-primary: #262626;
+    --text-secondary: #8e8e8e;
+    --input-border: #dbdbdb;
+    --input-bg: #fafafa;
+    --accent: #3797f0;
+    --accent-disabled: #b2dcff;
+    --divider: #dbdbdb;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 1px;
+    padding: 40px 40px 24px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .wordmark {
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 28px;
+    letter-spacing: -0.5px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  input {
+    width: 100%;
+    padding: 9px 8px;
+    font-size: 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 3px;
+    color: var(--text-primary);
+    outline: none;
+  }
+
+  input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  input:focus {
+    border-color: #a8a8a8;
+    background: #fff;
+  }
+
+  .submit-btn {
+    margin-top: 8px;
+    padding: 7px 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .submit-btn:disabled {
+    background: var(--accent-disabled);
+    cursor: default;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 18px 0 18px;
+  }
+
+  .divider div {
+    flex: 1;
+    height: 1px;
+    background: var(--divider);
+  }
+
+  .divider span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .forgot {
+    font-size: 12px;
+    color: #00376b;
+    text-decoration: none;
+  }
+
+  .secondary-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 1px;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+
+  .secondary-card a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .status {
+    font-size: 12px;
+    margin-top: 10px;
+    min-height: 16px;
+    color: #2e7d32;
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="warning">CYBERSECURITY TRAINING ONLY — FICTIONAL DEMO — DO NOT ENTER REAL PASSWORDS</div>
 
-  <section class="card">
-    <h1>ExampleSocial</h1>
-    <p>Fictional sign-in form for demonstrating phishing-awareness concepts.</p>
-    <form id="demoForm">
-      <label for="username">Demo username</label>
-      <input id="username" name="username" autocomplete="off"
-             placeholder="e.g. training_user" required>
-      <label for="password">Dummy password</label>
-      <input id="password" name="password" type="password" autocomplete="new-password"
-             placeholder="Use a made-up password" required>
-      <button type="submit">Run local demo</button>
-    </form>
-    <p class="note">This page is not affiliated with Instagram or Meta. Use invented test values only.</p>
-  </section>
+  <div class="wrap">
+    <div class="card">
+      <p class="wordmark">Minstagram</p>
 
-  <section class="card">
-    <h2>Local demonstration output</h2>
-    <p>After submitting, the dummy values appear here in this browser only.</p>
-    <div class="output" id="output" aria-live="polite">
-      <span class="empty">Waiting for a demo submission…</span>
+      <form id="loginForm">
+        <input type="text" id="username" name="username" placeholder="Phone number, username, or email" autocomplete="username" required>
+        <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>Log in</button>
+      </form>
+
+      <div class="divider"><div></div><span>OR</span><div></div></div>
+
+      <a href="#" class="forgot">Forgot password?</a>
+
+      <p class="status" id="status"></p>
     </div>
-    <p class="note"><strong>Privacy:</strong> Nothing is sent to GitHub, a server, or another person.
-    This page has no backend, network requests, analytics, or storage.</p>
-  </section>
-</div>
+
+    <div class="secondary-card">
+      Don't have an account? <a href="#">Sign up</a>
+    </div>
+  </div>
+
 <script>
-  const form = document.getElementById('demoForm');
-  const output = document.getElementById('output');
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    // Values are displayed only in this page's current browser session.
-    // They are not transmitted or persisted.
-    const userLine = document.createElement('div');
-    userLine.className = 'line';
-    const userKey = document.createElement('span');
-    userKey.className = 'key';
-    userKey.textContent = 'Demo username: ';
-    userLine.append(userKey, document.createTextNode(username));
+  const form = document.getElementById('loginForm');
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
+  const submitBtn = document.getElementById('submitBtn');
+  const status = document.getElementById('status');
 
-    const passLine = document.createElement('div');
-    passLine.className = 'line';
-    const passKey = document.createElement('span');
-    passKey.className = 'key';
-    passKey.textContent = 'Dummy password: ';
-    passLine.append(passKey, document.createTextNode(password));
+  function updateButtonState() {
+    submitBtn.disabled = !(username.value.trim() && password.value.trim());
+  }
+  username.addEventListener('input', updateButtonState);
+  password.addEventListener('input', updateButtonState);
 
-    const status = document.createElement('div');
-    status.className = 'line';
-    status.textContent = 'Result: displayed locally — not transmitted or saved.';
-    output.replaceChildren(userLine, passLine, status);
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const payload = {
+      username: username.value,
+      password: password.value
+    };
+
+    // Replace this URL with your own backend endpoint.
+    // The endpoint should hash the password (e.g. with bcrypt) before
+    // storing anything — never store or email plaintext passwords.
+    const ENDPOINT = '/api/login';
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Logging in...';
+
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        status.textContent = 'Submitted.';
+      } else {
+        status.style.color = '#c0392b';
+        status.textContent = 'Something went wrong. Try again.';
+      }
+    } catch (err) {
+      status.style.color = '#c0392b';
+      status.textContent = 'No backend connected yet (' + ENDPOINT + ').';
+    } finally {
+      submitBtn.textContent = 'Log in';
+      updateButtonState();
+    }
   });
 </script>
+
 </body>
 </html>
