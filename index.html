@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phishing Awareness Lab — Local Demo</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;padding:24px;background:#eef2f7;color:#172033;
+       font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+  .wrap{max-width:980px;margin:30px auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card{background:#fff;border:1px solid #dbe2ea;border-radius:18px;padding:26px;
+        box-shadow:0 10px 28px #1720330d}
+  .warning{grid-column:1/-1;background:#fff3cd;border:1px solid #f1d58a;color:#664d03;
+           padding:13px 16px;border-radius:12px;font-weight:750;text-align:center}
+  h1{font-size:25px;margin:0 0 6px} h2{font-size:20px;margin:0 0 12px}
+  p{color:#5c6879;margin:8px 0 18px}
+  label{display:block;font-weight:650;margin:15px 0 6px}
+  input{width:100%;padding:13px;border:1px solid #bfc9d6;border-radius:9px;font:inherit}
+  button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:9px;
+         background:#2457c5;color:white;font-weight:750;font-size:16px;cursor:pointer}
+  button:hover{background:#1948ad}
+  .output{min-height:150px;padding:14px;border-radius:10px;background:#f4f7fb;
+          border:1px solid #dce4ed;overflow-wrap:anywhere}
+  .line{margin:8px 0}.key{font-weight:750;color:#34445a}
+  .note{font-size:13px;margin-top:18px}
+  .empty{color:#788496}
+  @media(max-width:720px){.wrap{grid-template-columns:1fr}.warning{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="warning">CYBERSECURITY TRAINING ONLY — FICTIONAL DEMO — DO NOT ENTER REAL PASSWORDS</div>
+
+  <section class="card">
+    <h1>ExampleSocial</h1>
+    <p>Fictional sign-in form for demonstrating phishing-awareness concepts.</p>
+    <form id="demoForm">
+      <label for="username">Demo username</label>
+      <input id="username" name="username" autocomplete="off"
+             placeholder="e.g. training_user" required>
+      <label for="password">Dummy password</label>
+      <input id="password" name="password" type="password" autocomplete="new-password"
+             placeholder="Use a made-up password" required>
+      <button type="submit">Run local demo</button>
+    </form>
+    <p class="note">This page is not affiliated with Instagram or Meta. Use invented test values only.</p>
+  </section>
+
+  <section class="card">
+    <h2>Local demonstration output</h2>
+    <p>After submitting, the dummy values appear here in this browser only.</p>
+    <div class="output" id="output" aria-live="polite">
+      <span class="empty">Waiting for a demo submission…</span>
+    </div>
+    <p class="note"><strong>Privacy:</strong> Nothing is sent to GitHub, a server, or another person.
+    This page has no backend, network requests, analytics, or storage.</p>
+  </section>
+</div>
+<script>
+  const form = document.getElementById('demoForm');
+  const output = document.getElementById('output');
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    // Values are displayed only in this page's current browser session.
+    // They are not transmitted or persisted.
+    const userLine = document.createElement('div');
+    userLine.className = 'line';
+    const userKey = document.createElement('span');
+    userKey.className = 'key';
+    userKey.textContent = 'Demo username: ';
+    userLine.append(userKey, document.createTextNode(username));
+
+    const passLine = document.createElement('div');
+    passLine.className = 'line';
+    const passKey = document.createElement('span');
+    passKey.className = 'key';
+    passKey.textContent = 'Dummy password: ';
+    passLine.append(passKey, document.createTextNode(password));
+
+    const status = document.createElement('div');
+    status.className = 'line';
+    status.textContent = 'Result: displayed locally — not transmitted or saved.';
+    output.replaceChildren(userLine, passLine, status);
+  });
+</script>
+</body>
+</html>
